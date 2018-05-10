@@ -1,0 +1,65 @@
+public class Solution {
+    public ArrayList<ArrayList<Integer>> prettyPrint(int A) {
+
+        int dimensions = 2*A - 1;
+        int[][] prettyRectangle = new int[dimensions][dimensions];
+
+        //Keep track of outer bounds of box
+         int start = 0;
+         int end = prettyRectangle.length - 1;
+         //We do a mirror like
+       while (A > 0){
+
+               //Write top and bottom row
+               writeRow(prettyRectangle, start, end, start,A );
+               writeRow(prettyRectangle, start, end, end,A );
+               //Write left and right column
+                writeColumn(prettyRectangle, start, end, start, A);
+               writeColumn(prettyRectangle, start, end, end, A);
+
+           //Update the locaiton of top, right, left, and bottom
+           start++;
+           end--;
+           //Also update the value to be written
+           A--;
+       }
+
+       ArrayList<ArrayList<Integer>> solution = copyToArrayList(prettyRectangle);
+
+
+          return solution;
+
+    }
+
+    ArrayList<ArrayList<Integer>> copyToArrayList(int[][] m){
+        //Have to return an arraylist
+       ArrayList<ArrayList<Integer>> solution = new ArrayList<ArrayList<Integer>> ();
+
+       for (int i = 0; i < m.length; i++){
+           ArrayList<Integer> subSolution = new ArrayList<Integer> ();
+
+           for (int j = 0; j < m.length; j++){
+               subSolution.add(m[i][j]);
+           }
+
+           solution.add(subSolution);
+       }
+
+
+       return solution;
+
+    }
+
+
+    void writeColumn(int[][] m, int start, int end, int col, int value){
+        for (int i = start; i <= end; i++){
+            m[i][col] = value;
+        }
+    }
+
+    void writeRow(int[][] m, int start, int end, int row, int value){
+        for (int i = start; i <= end; i++){
+            m[row][i] = value;
+        }
+    }
+}

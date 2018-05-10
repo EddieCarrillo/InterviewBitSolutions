@@ -1,0 +1,73 @@
+public class Solution {
+    // DO NOT MODIFY THE LIST. IT IS READ ONLY
+    public int kthsmallest(final List<Integer> A, int B) {
+        //Using quick select algorithm
+        ArrayList<Integer> input = new ArrayList<Integer>();
+
+        //Put input into mutable list
+        for (int x: A){
+            input.add(x);
+        }
+
+
+        //Use quick select algorithm
+
+        return QuickSelectHelper(input, B);
+
+
+    }
+
+    int QuickSelectHelper(ArrayList<Integer> input, int k){
+        return QuickSelect(input, 0, input.size() - 1, k);
+    }
+
+    int QuickSelect(ArrayList<Integer> input, int start, int end, int k){
+        if (start < end){
+            int swap = randomWithRange(start, end);
+            int pivot = end;
+            swap(input,pivot, end);
+
+            int q = partition(input, start, end);
+
+            int splitValue = input.get(q);
+
+            if (k-1 == q){
+                return splitValue;
+            }else if (k > q){//This means that we need to look on the right side
+                return QuickSelect(input, q+1, end, k);
+            }else { //This means we need to look at the left side.
+                return QuickSelect(input, 0, q-1, k);
+            }
+
+        }
+
+        return input.get(k-1);
+    }
+
+    int partition(ArrayList<Integer> list, int start, int end){
+        int i = start - 1;
+        int pivot = end;
+
+        //Keep incrementing j and compare it to the pivot
+        for (int j = start; j <= end; j++){
+           if (list.get(j) <= list.get(pivot)){
+               i++;
+               swap(list, i, j);
+           }
+        }
+
+        return i;
+    }
+
+    void swap(ArrayList<Integer> list, int i, int j){
+        int temp = list.get(i);
+        list.set(i, list.get(j));
+        list.set(j, temp);
+    }
+
+    int randomWithRange(int min, int max){
+   int range = (max - min) + 1;
+   return (int)(Math.random() * range) + min;
+}
+
+}

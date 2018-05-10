@@ -1,0 +1,88 @@
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     ListNode(int x) { val = x; next = null; }
+ * }
+ */
+public class Solution {
+    public ListNode subtract(ListNode A) {
+        if (A == null || A.next == null){
+            return A;
+        }
+
+        //Calculate the middle
+        ListNode middle = getMiddle(A);
+
+        ListNode secondHalf = middle.next;
+
+        //Cut the list into two
+        middle.next = null;
+        //Reverse the second part of the list in order to subtract correctly
+          secondHalf = reverseList(secondHalf);
+          //Keep a reference to reversed head of 2nd part of the list
+          ListNode secondHead = secondHalf;
+
+        // Create pointer to traverse seocn
+          ListNode curr = A;
+
+        while (secondHalf != null){
+            curr.val = secondHalf.val - curr.val;
+            //Increment pointers
+            curr = curr.next;
+            secondHalf = secondHalf.next;
+        }
+
+        //Reconnect the list
+        middle.next = reverseList(secondHead);
+
+
+
+      //Return modified list
+        return A;
+    }
+
+
+     public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) return head;
+
+        ListNode k = head.next;
+        ListNode j = head;
+        ListNode i = null;
+
+        while (j != null){
+            j.next = i;
+            i = j;
+            j = k;
+            if (k != null){
+                k = k.next;
+            }
+        }
+
+        return i;
+    }
+
+
+    ListNode getMiddle(ListNode h){
+        ListNode slow = h;
+        ListNode fast = h.next;
+        int count = 2;
+
+        while (fast.next != null){
+            count++;
+            fast = fast.next;
+            if (fast.next != null){
+                count++;
+                fast = fast.next;
+                slow = slow.next;
+            }
+        }
+
+        if (count % 2 == 1){
+            return slow.next;
+        }
+
+        return slow;
+    }
+}

@@ -1,0 +1,35 @@
+public class Solution {
+    // DO NOT MODIFY THE LIST. IT IS READ ONLY
+    public int longestConsecutive(final List<Integer> A) {
+        return longestConsecutiveHelper(A);
+    }
+
+      public int longestConsecutiveHelper(List<Integer> nums) {
+          //Create table for numbers for really fast lookup
+        HashSet<Integer> numSet = new HashSet<Integer>();
+        //Add each item to table
+        for (int num : nums) {
+            numSet.add(num);
+        }
+        //Keep track of longest streak
+        int longestStreak = 0;
+
+       //Go through each numebr in set
+        for (int num : numSet) {
+            //If this number is as small as it can get....... otherwise just skip it.
+            if (!numSet.contains(num-1)) {
+                int currentNum = num;
+                int currentStreak = 1;
+
+                while (numSet.contains(currentNum+1)) {
+                    currentNum += 1;
+                    currentStreak += 1;
+                }
+
+                longestStreak = Math.max(longestStreak, currentStreak);
+            }
+        }
+
+        return longestStreak;
+    }
+}
